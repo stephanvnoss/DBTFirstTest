@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: raw
+    schema: jaffle_shop
+    tables:
+      - name: customers              
+        description: One record per customer.
+      - name: orders
+        description: One record per order. Includes and deleted orders.
+        loaded_at_field: _etl_loaded_at
+        freshness: 
+          warn_after:
+            count: 12
+            period: hour
+          error_after:
+            count: 24
+            period: hour
+        
+models:
+  - name: stg_customers
+    description: This model cleans up customer data
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+ 
+  - name: stg_orders
+    description: This model cleans up order data
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+              
+              
+
+
+
