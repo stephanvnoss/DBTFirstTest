@@ -21,3 +21,4 @@ fact_orders as(
 select * from fact_orders
 
 --coment for CI
+--commetn for SlimCI
