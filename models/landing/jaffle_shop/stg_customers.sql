@@ -8,3 +8,6 @@ with customers as(
 )
 
 select * from customers
+
+
+--adding a comment
