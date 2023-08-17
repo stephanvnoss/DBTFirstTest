@@ -34,10 +34,9 @@ clean-targets:         # directories to be removed by `dbt clean`
  
 models:
   jaffle_shop:
-    raw:
-      +required_tests: {"unique.*|not_null": 1}
-      core:
-        +materialized: table
-      landing:
-        +materialized: view
+    +required_tests: {"unique.*|not_null": 1}
+    core:
+      +materialized: table
+    landing:
+      +materialized: view
 
